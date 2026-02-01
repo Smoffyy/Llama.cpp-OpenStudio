@@ -1,0 +1,231 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+.animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Glassmorphism Effects */
+.glass {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Custom Range Slider */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #334155;
+    height: 6px;
+    border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #8b5cf6;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    margin-top: -6px;
+    transition: all 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #a78bfa;
+    transform: scale(1.1);
+}
+
+/* Toggle Switch */
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #8b5cf6;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #8b5cf6;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 3px solid rgba(139, 92, 246, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #8b5cf6;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Code Block Styling */
+.code-block {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 0.5rem;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* Status Indicators */
+.status-online {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+/* Binary Card Hover Effect */
+.binary-card {
+    transition: all 0.3s ease;
+}
+
+.binary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.1);
+}
+
+/* Model Card Selected State */
+.model-card.selected {
+    border-color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.1);
+}
+
+/* Toast Notification */
+.toast {
+    animation: slideIn 0.3s ease-out;
+    backdrop-filter: blur(10px);
+}
+
+/* Tab Transitions */
+.tab-content {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.tab-content.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* Custom Button Styles */
+.btn-primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+/* Progress Bar */
+.progress-bar {
+    background: linear-gradient(90deg, #8b5cf6 0%, #6366f1 100%);
+    transition: width 0.3s ease;
+}
+
+/* Terminal-like Log Output */
+.log-entry {
+    border-left: 2px solid transparent;
+    padding-left: 0.5rem;
+}
+
+.log-entry.info {
+    border-left-color: #3b82f6;
+}
+
+.log-entry.error {
+    border-left-color: #ef4444;
+}
+
+.log-entry.success {
+    border-left-color: #22c55e;
+}
+
+/* Responsive Grid for Binaries */
+.binaries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Parameter Input Styling */
+.param-input {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #e2e8f0;
+    transition: all 0.2s;
+}
+
+.param-input:focus {
+    border-color: #8b5cf6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Hot-swap Animation */
+.hotswap-active {
+    animation: hotswap-pulse 1s ease-in-out;
+}
+
+@keyframes hotswap-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}

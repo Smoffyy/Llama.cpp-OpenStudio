@@ -1,0 +1,47 @@
+{
+    "name": "llama-cpp-control-center",
+    "version": "1.0.0",
+    "description": "Desktop GUI for managing llama.cpp binaries and OpenAI-compatible server",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "build": "electron-builder",
+        "build:win": "electron-builder --win",
+        "build:mac": "electron-builder --mac",
+        "build:linux": "electron-builder --linux",
+        "postinstall": "electron-builder install-app-deps"
+    },
+    "build": {
+        "appId": "com.llamacc.app",
+        "productName": "Llama.cpp Control Center",
+        "directories": {
+            "output": "dist"
+        },
+        "files": [
+            "main.js",
+            "preload.js",
+            "index.html",
+            "style.css",
+            "script.js",
+            "components/**/*",
+            "assets/**/*"
+        ],
+        "win": {
+            "target": [
+                "nsis",
+                "portable"
+            ],
+            "icon": "assets/icon.ico"
+        }
+    },
+    "devDependencies": {
+        "electron": "^40.1.0",
+        "electron-builder": "^26.7.0"
+    },
+    "dependencies": {
+        "extract-zip": "^2.0.1",
+        "tar": "^7.5.7"
+    },
+    "author": "Llama.cpp Control Center Team",
+    "license": "MIT"
+}
