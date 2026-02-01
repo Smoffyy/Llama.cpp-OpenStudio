@@ -16,6 +16,7 @@ class ModelManager extends HTMLElement {
         // Listen for global model updates
         document.addEventListener('models-updated', (e) => {
             this.models = e.detail || [];
+            console.log('ModelManager received models:', this.models);
             this.renderModelList();
         });
     }
@@ -50,6 +51,7 @@ class ModelManager extends HTMLElement {
                     display: grid;
                     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                     gap: 1rem;
+                    margin-bottom: 1.5rem;
                 }
 
                 .model-card {
@@ -64,6 +66,7 @@ class ModelManager extends HTMLElement {
                 .model-card:hover {
                     border-color: #8b5cf6;
                     transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
                 }
 
                 .model-card.selected {
@@ -75,6 +78,7 @@ class ModelManager extends HTMLElement {
                     font-weight: 600;
                     color: #f1f5f9;
                     margin-bottom: 0.25rem;
+                    word-break: break-all;
                 }
 
                 .model-meta {
@@ -84,7 +88,6 @@ class ModelManager extends HTMLElement {
                 }
 
                 .actions {
-                    margin-top: 1.5rem;
                     display: flex;
                     gap: 0.75rem;
                 }
@@ -96,11 +99,17 @@ class ModelManager extends HTMLElement {
                     cursor: pointer;
                     font-weight: 500;
                     transition: all 0.2s;
+                    flex: 1;
                 }
 
                 .btn-primary {
                     background: linear-gradient(135deg, #8b5cf6, #6366f1);
                     color: white;
+                }
+
+                .btn-primary:hover:not(:disabled) {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
                 }
 
                 .btn-primary:disabled {
@@ -111,6 +120,10 @@ class ModelManager extends HTMLElement {
                 .btn-secondary {
                     background: #334155;
                     color: #e5e7eb;
+                }
+
+                .btn-secondary:hover:not(:disabled) {
+                    background: #475569;
                 }
 
                 .empty {
@@ -131,10 +144,7 @@ class ModelManager extends HTMLElement {
 
                 <div class="actions">
                     <button id="loadBtn" class="btn-primary" disabled>
-                        Load Model
-                    </button>
-                    <button id="paramsBtn" class="btn-secondary" disabled>
-                        Edit Parameters
+                        Load Selected Model
                     </button>
                 </div>
 
@@ -146,10 +156,6 @@ class ModelManager extends HTMLElement {
             .getElementById('loadBtn')
             .addEventListener('click', () => this.loadSelectedModel());
 
-        this.shadowRoot
-            .getElementById('paramsBtn')
-            .addEventListener('click', () => this.openParamEditor());
-
         this.renderModelList();
     }
 
@@ -157,17 +163,17 @@ class ModelManager extends HTMLElement {
         const container = this.shadowRoot.getElementById('models');
         container.innerHTML = '';
 
-        if (!this.models.length) {
+        if (!this.models || !this.models.length) {
             container.innerHTML = `
                 <div class="empty">
                     No models found.<br />
-                    Add GGUF files to your models directory.
+                    Add .gguf files to your models directory.
                 </div>
             `;
             return;
         }
 
-        this.models.forEach(model => {
+        this.models.forEach((model) => {
             const card = document.createElement('div');
             card.className = 'model-card';
             if (this.selectedModel === model.name) {
@@ -191,7 +197,6 @@ class ModelManager extends HTMLElement {
         this.selectedModel = modelName;
 
         this.shadowRoot.getElementById('loadBtn').disabled = false;
-        this.shadowRoot.getElementById('paramsBtn').disabled = false;
 
         this.renderModelList();
 
@@ -201,15 +206,20 @@ class ModelManager extends HTMLElement {
     }
 
     async loadSelectedModel() {
-        if (!this.selectedModel) return;
+        if (!this.selectedModel) {
+            alert('Please select a model');
+            return;
+        }
 
         try {
+            console.log('Loading model:', this.selectedModel, 'with params:', this.modelParams);
             await window.electron.startServer(
                 this.selectedModel,
                 this.modelParams || {}
             );
         } catch (err) {
             console.error('Failed to load model:', err);
+            alert(`Failed to load model: ${err.message}`);
         }
     }
 
@@ -223,6 +233,7 @@ class ModelManager extends HTMLElement {
 
         editor.addEventListener('params-updated', (e) => {
             this.modelParams = e.detail;
+            console.log('Parameters updated:', this.modelParams);
         });
 
         container.appendChild(editor);

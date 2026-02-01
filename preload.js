@@ -26,9 +26,9 @@ contextBridge.exposeInMainWorld('electron', {
     openDevTools: () => ipcRenderer.send('open-dev-tools'),
     
     // Listeners
-    onServerStatus: (callback) => ipcRenderer.on('server-status', callback),
-    onServerLog: (callback) => ipcRenderer.on('server-log', callback),
-    onDownloadProgress: (callback) => ipcRenderer.on('download-progress', callback),
+    onServerStatus: (callback) => ipcRenderer.on('server-status', (event, data) => callback(data)),
+    onServerLog: (callback) => ipcRenderer.on('server-log', (event, data) => callback(data)),
+    onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, data) => callback(data)),
     
     // Remove listeners
     removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel)

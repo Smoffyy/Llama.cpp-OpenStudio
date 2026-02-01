@@ -10,21 +10,21 @@ if errorlevel 1 (
     exit /b 1
 )
 
-:: Set path to Desktop [cite: 3]
-set "INSTALL_DIR=%USERPROFILE%\Desktop\LlamaControlCenter"
-if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
+:: Set path to the current directory where the batch file is located
+set "INSTALL_DIR=%~dp0"
 cd /d "%INSTALL_DIR%"
 
-echo Installing in: %INSTALL_DIR% [cite: 4]
+echo Installing in: %INSTALL_DIR%
 
-:: Note: This assumes you have the files in this folder already
 echo Installing npm dependencies...
-call npm install [cite: 5]
+call npm install
 
+:: Create local storage folders
 if not exist "models" mkdir "models"
 if not exist "bin" mkdir "bin"
 
-echo Setup complete! [cite: 8]
-echo Put your .gguf files in the "models" folder on your Desktop.
+echo.
+echo Setup complete!
+echo Put your .gguf files in the "models" folder in this directory.
 echo Start the app with: npm start
 pause
